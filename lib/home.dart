@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:web3dart/web3dart.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -6,6 +8,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Client httpClient;
+  Web3Client ethClient;
+
+  final myAddress = '0x3533b652A89CAC9d9EAcA82DA53123C7d9FeA3ce';
+
+  @override
+  void initState() {
+    httpClient = Client();
+    ethClient = Web3Client('HTTP://127.0.0.1:7545', httpClient);
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,8 +38,8 @@ class _HomeState extends State<Home> {
           child: Column(
             children: [
               postBox('Sanchit', 'This is a test post.', context),
-              postBox('Sanchit', 'This is a test post.', context),
-              postBox('Sanchit', 'This is a test post.', context),
+              postBox('Akhil', 'This is a test post.', context),
+              postBox('Akhil', 'This is a test post.', context),
               postBox('Sanchit', 'This is a test post.', context),
               postBox('Sanchit', 'This is a test post.', context),
               postBox('Sanchit', 'This is a test post.', context),
@@ -34,6 +49,50 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          return showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return Container(
+                height: MediaQuery.of(context).size.height * 0.5,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.black54),
+                      ),
+                      padding: EdgeInsets.all(20),
+                      child: TextFormField(
+                        maxLines: 10,
+                        decoration: InputDecoration(
+                          hintText: 'Enter something to post ....',
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Post',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+        elevation: 5,
+        child: Icon(Icons.create),
       ),
     );
   }
